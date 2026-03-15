@@ -1,8 +1,8 @@
 from django.db import models
 
 class Course(models.Model):
-    courseName = models.CharField(max_length=100)
-    description = models.TextField(blank=True)
+    courseName = models.CharField(max_length=100, default="Unknown Course")
+    description = models.TextField()
     instructor = models.CharField(max_length=100)
     credits = models.IntegerField()
 

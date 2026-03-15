@@ -50,13 +50,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'Course.urls'
+ROOT_URLCONF = 'courseproject.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        'APP_DIRS': True,
+        'DIRS': [],  # you can leave empty if you only use app templates
+        'APP_DIRS': True,  # this allows Django to auto-load templates inside apps
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -68,8 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Course.wsgi.application'
-
+WSGI_APPLICATION = 'courseproject.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -77,13 +76,17 @@ WSGI_APPLICATION = 'Course.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Coursedb',
-        'USER': 'root',
-        'PASSWORD': 'Chandra@123$',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'NAME': os.environ.get('DB_NAME', 'testdb'),
+        'USER': os.environ.get('DB_USER', 'root'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'MyNewPassword123'),
+        'HOST': os.environ.get('DB_HOST', 'course-db'),  # must match the service name
+        'PORT': os.environ.get('DB_PORT', '3306'),
     }
 }
+
+SECRET_KEY = os.environ.get('SECRET_KEY', 'fallback-secret-key')
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+ALLOWED_HOSTS = ['*']
 
 
 # Password validation

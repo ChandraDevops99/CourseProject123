@@ -1,0 +1,34 @@
+version: '3.9'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: course-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: testdb
+      MYSQL_ROOT_PASSWORD: MyNewPassword123
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
+
+  web:
+    build: .
+    container_name: course-web
+    command: >
+      python wait_for_db.py python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: testdb
+      DB_USER: root
+      DB_PASSWORD: MyNewPassword123
+      DEBUG: "True"
+    depends_on:
+      db:
+        condition: service_healthy
