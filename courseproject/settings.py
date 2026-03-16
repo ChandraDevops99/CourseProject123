@@ -76,9 +76,9 @@ WSGI_APPLICATION = 'courseproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'testdb',
+        'NAME': 'course_db',
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': 'Chandra@123$',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
@@ -87,6 +87,7 @@ DATABASES = {
 SECRET_KEY = os.environ.get('SECRET_KEY', 'fallback-secret-key')
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = ['*']
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # Password validation
