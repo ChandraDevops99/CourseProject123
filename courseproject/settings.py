@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-
+from pathlib import Path
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -73,21 +73,27 @@ WSGI_APPLICATION = 'courseproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'course_db',
-        'USER': 'django',
-        'PASSWORD': 'django123',
-        'HOST': 'course-db',
+        'NAME': os.getenv('DB_NAME', 'course_db'),
+        'USER': os.getenv('DB_USER', 'root'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'Chandra@123$'),
+        'HOST': os.getenv('DB_HOST', '127.0.0.1'),
         'PORT': '3306',
     }
 }
 
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 SECRET_KEY = os.environ.get('SECRET_KEY', 'fallback-secret-key')
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = ['*']
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 
 
 # Password validation

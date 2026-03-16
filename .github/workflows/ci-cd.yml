@@ -20,10 +20,10 @@ jobs:
         ports:
           - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping"
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -proot"
           --health-interval=10s
           --health-timeout=5s
-          --health-retries=3
+          --health-retries=10
 
     steps:
 
@@ -40,18 +40,32 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    - name: Install MySQL client
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y mysql-client
+
     - name: Wait for MySQL
       run: |
-        sudo apt-get install -y mysql-client
         until mysql -h 127.0.0.1 -uroot -proot -e "SHOW DATABASES;"; do
           echo "Waiting for database..."
           sleep 5
         done
 
     - name: Run migrations
+      env:
+        DB_NAME: testdb
+        DB_USER: root
+        DB_PASSWORD: root
+        DB_HOST: 127.0.0.1
       run: |
         python manage.py migrate
 
     - name: Run tests
+      env:
+        DB_NAME: testdb
+        DB_USER: root
+        DB_PASSWORD: root
+        DB_HOST: 127.0.0.1
       run: |
         python manage.py test
