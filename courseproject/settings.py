@@ -76,10 +76,10 @@ WSGI_APPLICATION = 'courseproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'course_db',
+        'NAME': 'testdb',
         'USER': 'root',
-        'PASSWORD': 'rootpassword',
-        'HOST': '172.18.0.2',  # <--- use container IP
+        'PASSWORD': 'root',
+        'HOST': '127.0.0.1',
         'PORT': '3306',
     }
 }
